@@ -14,16 +14,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# 3. Manajemen Dependencies
-# Gunakan cache mount untuk mempercepat build jika dijalankan berkali-kali
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# 4. Menyalin kode aplikasi
-COPY . .
-
-# 5. Entrypoint
-# Cloud Run Jobs akan mengeksekusi script ini
-# Script Anda harus bisa membaca os.environ.get("CLOUD_RUN_TASK_INDEX") 
-# untuk membagi tugas secara otomatis
 CMD ["python", "main.py"]

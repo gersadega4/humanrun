@@ -1,20 +1,32 @@
-name: Python application
+name: Build and Push to Docker Hub
 
 on:
   push:
-   branches: [ main ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
-      
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Build & Push Image
-      run: |
-        echo "${{ secrets.DOCKERPW }}" | docker login -u "dapurspl" --password-stdin
-        docker image build -t dapurspl/humanrun:latest .
-        docker push dapurspl/humanrun:latest
+    # 1. Gunakan versi terbaru (v4) agar file main.py terbaca dengan benar
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 2. Login ke Docker Hub
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: dapurspl
+        password: ${{ secrets.DOCKERPW }}
+
+    # 3. Build dan Push menggunakan Action resmi (Lebih Cepat & Stabil)
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        # PASTIKAN TAG INI SAMA DENGAN YANG DI CLOUD RUN
+        tags: dapurspl/humanrun:latest

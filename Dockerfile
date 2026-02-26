@@ -1,11 +1,14 @@
-# Menggunakan image Python versi slim agar proses upload/pull cepat
 FROM python:3.11-slim
 
-# Menentukan folder kerja di dalam container
+# Gunakan path absolut untuk keamanan
 WORKDIR /app
 
-# Menyalin file main.py dari komputer Anda ke folder /app di container
-COPY main.py .
+# Copy file secara spesifik
+COPY main.py /app/main.py
 
-# Menjalankan script saat container dimulai
-CMD ["python", "main.py"]
+# DEBUG: Tampilkan isi folder /app saat build. 
+# Cek log GitHub Actions kamu, harus muncul "main.py" di sini.
+RUN ls -la /app
+
+# Jalankan dengan path absolut
+CMD ["python", "/app/main.py"]

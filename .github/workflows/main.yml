@@ -29,4 +29,4 @@ jobs:
         context: .
         push: true
         # PASTIKAN TAG INI SAMA DENGAN YANG DI CLOUD RUN
-        tags: dapurspl/wegah:latest
+        tags: dapurspl/zep2026:latest

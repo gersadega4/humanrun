@@ -1,14 +1,21 @@
+# Menggunakan versi Python slim yang efisien untuk riset Anda
 FROM python:3.11-slim
 
-# Gunakan path absolut untuk keamanan
+# 1. Install wget dan bersihkan cache agar image tetap kecil
+# Menggunakan && untuk menggabungkan perintah dalam satu layer
+RUN apt-get update && apt-get install -y \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# 2. Tentukan folder kerja
 WORKDIR /app
 
-# Copy file secara spesifik
+# 3. Copy file utama
+# Pastikan file ini ada di root repository GitHub kamu
 COPY main.py /app/main.py
 
-# DEBUG: Tampilkan isi folder /app saat build. 
-# Cek log GitHub Actions kamu, harus muncul "main.py" di sini.
-RUN ls -la /app
+# 4. Verifikasi (Opsional - untuk debugging log)
+RUN ls -la /app && wget --version
 
-# Jalankan dengan path absolut
+# 5. Jalankan script
 CMD ["python", "/app/main.py"]

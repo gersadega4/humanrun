@@ -1,9 +1,11 @@
+# Menggunakan image Python versi slim agar proses upload/pull cepat
 FROM python:3.11-slim
 
-WORKDIR /
-# Installs hypertune library
-RUN pip install cloudml-hypertune
-# Copies the trainer code to the docker image.
-COPY trainer /trainer
-# Sets up the entry point to invoke the trainer.
-ENTRYPOINT ["python", "-m", "trainer.task"]
+# Menentukan folder kerja di dalam container
+WORKDIR /app
+
+# Menyalin file main.py dari komputer Anda ke folder /app di container
+COPY main.py .
+
+# Menjalankan script saat container dimulai
+CMD ["python", "main.py"]
